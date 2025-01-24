@@ -1,0 +1,18 @@
+{
+    "name": "saif/break",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Saif Elyas",
+            "email": "aliensaif722@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Break\\" : "Break/",
+            "Routes\\" : "Routes/",
+            "Controllers\\" : "controllers/"
+        }
+    }
+}
