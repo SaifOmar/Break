@@ -44,6 +44,9 @@ class Request
         return $this->getParams;
     }
 
+    /**
+     * @return string
+     */
     public function uri(): string
     {
         return rtrim(parse_url($_SERVER["REQUEST_URI"])["path"], "/");

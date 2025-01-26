@@ -5,20 +5,27 @@ namespace Break;
 
 class App
 {
-	protected static $webPath =  BASE_PATH . 'routes/web.php';
+    protected static $webPath = BASE_PATH . 'routes/web.php';
 
 
-	public static function Resolve(string $uri, string $method)
-	{
-		$router = new Router();
-		require App::$webPath;
-		App::startController($router->route($uri, $method));
-	}
-	protected static function startController(array $array)
-	{
+    public static function Resolve(string $uri, string $method)
+    {
+        $router = new Router();
+        require App::$webPath;
+        App::startController($router->route($uri, $method));
+    }
 
-		$controller =  new $array[1]();
-		$method = $array[2];
-		$controller->$method();
-	}
+    protected static function startController(array $array)
+    {
+        $controller = new $array[1]();
+        $method = $array[2];
+        $controller->$method();
+    }
+
+    public static function handleRequest(Request $request): void
+    {
+        $kernel = new Kernel();
+        $response = $kernel->handleRequest($request);
+        $response->send();
+    }
 }
