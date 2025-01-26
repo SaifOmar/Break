@@ -1,16 +1,19 @@
 <?php
 
 use Break\App;
+use Break\Kernel;
+use Break\Request;
 
+session_start();
 
 const BASE_PATH = __DIR__ . "/";
 
-require  BASE_PATH . "vendor/autoload.php";
+require BASE_PATH . "vendor/autoload.php";
 
-$uri = rtrim(parse_url($_SERVER["REQUEST_URI"])["path"], "/");
-
-$method = $_SERVER["REQUEST_METHOD"];
 
 $app = new App();
+$kernel = new Kernel();
+$response = $kernel->handleRequest(Request::createFromGlobals());
+$response->send();
 
-$app->Resolve($uri, $method);
+//$app->Resolve($request->uri(), $request->method());
