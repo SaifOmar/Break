@@ -1,3 +1,6 @@
+<?php
+// session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -83,12 +86,14 @@
 </head>
 
 <body>
+
 	<div class="container">
 		<h1>Welcome!</h1>
-		<?= $params['email'] ?>
+		<?= $email ?? $_SESSION["_post_data"]['email'] . " session" ?>
+		<?= $saif ?>
 		<p>Enter your email to get started.</p>
 		<form method="post" action="#">
-			<input type="text" name="email" placeholder="Enter your email" value="<?= $params['email'] ?? '' ?>" required>
+			<input type="text" name="email" placeholder="Enter your email" value="<?= $email ?? '' ?>" required>
 			<button type="submit">Submit</button>
 		</form>
 	</div>

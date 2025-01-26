@@ -8,9 +8,17 @@ class Controller
 
 	public function view(string $view, $params = null)
 	{
-		require_once($this->path . $view . ".php");
+		if (isset($params)) {
+			foreach ($params as $key => $value) {
+				$$key = $value;
+			}
+		}
+		require($this->path . $view . ".php");
 		if ($_SERVER['REQUEST_METHOD'] == "POST") {
-			header("location:" . $_SERVER['HTTP_REFERER']);
+			unset($_SESSION["_post_data"]);
+			$_SESSION["_post_data"] = $_POST;
+			header("location:" . $_SERVER['PHP_SELF']);
+			exit();
 		}
 	}
 	public function response(int $response)
