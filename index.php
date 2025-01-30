@@ -7,14 +7,13 @@ session_start();
 
 
 require BASE_PATH . "vendor/autoload.php";
-//require BASE_PATH . "bootstrap.php";
-$container = require BASE_PATH . "bootstrap.php";
+// require BASE_PATH . "bootstrap.php";
+$app = require BASE_PATH . "bootstrap.php";
 
-$function = $container->resolve(function () {
-    return "hello";
-
+$function = $app->resolve(function () {
+	return "hello";
 });
-$controller = $container->resolve(DataBase::class);
+$controller = $app->resolve(DataBase::class);
 
 var_dump($controller);
 die();

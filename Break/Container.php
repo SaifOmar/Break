@@ -31,13 +31,17 @@ class Container
 
         $dependencies = $this->getReflectionDependencies($this->getReflectedClass($className));
         if ($dependencies) {
-            var_dump($dependencies);
-            die();
             $resolvedDependencies = [];
             foreach ($dependencies as $dependency) {
-                $dependencyName = $dependency->getType()->getName();
-                $resolvedDependencies[] = $this->createInstance($dependencyName);
-                $this->bind($dependencyName, $dependencyName);
+                if ($dependency->isOptional()) {
+                    continue;
+                }
+                if ($dependency->getType()) {
+                    $dependencyName = $dependency->getName();
+                    var_dump($dependencyName);
+                } else {
+                    return new $className($this->getConfingData($className));
+                }
             }
             return new $className(...$resolvedDependencies);
         }
@@ -65,5 +69,12 @@ class Container
     public function bind(string $abstract, string|callable $concrete)
     {
         $this->bindings[$abstract] = $concrete;
+    }
+    protected function getConfingData(string $className)
+    {
+        $className = strstr($className, "\\");
+        $className = trim($className, '\\');
+
+        return http_build_query(require("Config/" . strtolower($className) . ".php"), "", ";");
     }
 }

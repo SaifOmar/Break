@@ -9,10 +9,9 @@ class DataBase
     public $connection;
     public $statement;
 
-    public function __construct($username = "root", $password = "")
+    public function __construct($dsn, $username = "root", $password = "")
     {
-        $dsn = 'mysql:dbname=break;host=localhost;port:3306';
-        $this->connection = new PDO($dsn, $username, $password, [
+        $this->connection = new PDO("mysql:" . $dsn, $username, $password, [
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ]);
     }
@@ -25,6 +24,7 @@ class DataBase
 
         return $this;
     }
+
 
     public function get()
     {
