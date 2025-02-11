@@ -9,6 +9,7 @@
     ],
     "require": {},
     "autoload": {
+        "files": ["Break/functions.php"],
         "psr-4": {
             "Break\\" : "Break/",
             "Routes\\" : "Routes/",

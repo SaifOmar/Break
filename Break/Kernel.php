@@ -4,10 +4,10 @@ namespace Break;
 
 class Kernel
 {
-    public function __construct()
-    {
-
-    }
+    private Router $router;
+    public function __construct(
+        $router
+    ) {}
 
     public function handleRequest(Request $request): Response
     {
@@ -25,12 +25,11 @@ class Kernel
         $controller = new $array[1]();
         $method = $array[2];
         $controller->$method();
-
     }
 
     public function handleException(\Exception $e)
     {
         echo $e->getMessage();
     }
-
 }
+

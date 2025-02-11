@@ -7,11 +7,17 @@ class Router
 {
     public $routes = [];
 
+    private $routePath = "../Routes/web.php";
+
     public function get(string $route, array $handles)
     {
         $this->add($route, "GET", $handles[0], $handles[1]);
     }
 
+    public function routesPath(string $path): void
+    {
+        $this->routePath = $path;
+    }
     private function add($uri, $method, $contorller, $function)
     {
         $this->routes[] = [

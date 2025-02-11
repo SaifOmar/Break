@@ -1,4 +1,7 @@
 <?php
+
+namespace Break;
+
 function dd($var)
 {
 	echo "<pre>";

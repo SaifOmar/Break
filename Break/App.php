@@ -5,20 +5,36 @@ namespace Break;
 
 class App
 {
-    // protected static $webPath = BASE_PATH . 'routes/web.php';
+    public static Container $container;
+    public static Kernel $kernel;
+    private static Router $router;
 
-    private static $container = new Container();
-    private static $kernel = new Kernel();
 
-
-    public static function resolve(string $abstract)
+    public function __construct()
     {
-        return App::$container->resolve($abstract);
+        self::$container = new Container();
+        // self::$kernel = self::resolve(Kernel::class);
+        self::$router = self::resolve(Router::class);
+        self::$kernel = new Kernel(self::$router);
+    }
+    public static function withRouting(string $routesPath): void
+    {
+        self::$router->routesPath($routesPath);
+    }
+
+    public static function resolve(string|callable $abstract)
+    {
+        return self::$container->resolve($abstract);
     }
 
     public static function handleRequest(Request $request): void
     {
-        $response = App::$kernel->handleRequest($request);
+        $response = self::$kernel->handleRequest($request);
         $response->send();
+    }
+    public static function bind(string  $abstract, string|callable $concrete)
+    {
+
+        return self::$container->bind($abstract, $concrete);
     }
 }

@@ -6,33 +6,52 @@ use PDO;
 
 class DataBase
 {
-    public $connection;
-    public $statement;
+    public static $connection;
+    public static $statement;
+    public static $dsn;
+    public static string $table;
 
     public function __construct($dsn, $username = "root", $password = "")
     {
-        $this->connection = new PDO("mysql:" . $dsn, $username, $password, [
+        self::$dsn = $dsn;
+        self::$connection = new PDO("mysql:" . $dsn, $username, $password, [
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ]);
     }
 
-    public function query($query, $params = [])
+    public static function query($query, $params = [])
     {
-        $this->statement = $this->connection->prepare($query);
+        self::$statement = self::$connection->prepare($query);
 
-        $this->statement->execute($params);
+        self::$statement->execute($params);
 
-        return $this;
+        return self::$statement;
     }
 
-
-    public function get()
+    private static function chain()
     {
-        return $this->statement->fetchAll();
+        return new static(self::$dsn);
     }
 
-    public function find()
+    public static function table(string $table)
     {
-        return $this->statement->fetch();
+        self::$table = $table;
+        return self::chain();
+    }
+    public static function all()
+    {
+        $sql = "select * from " . self::$table;
+        self::query($sql);
+        return self::get();
+    }
+
+    public static function get()
+    {
+        return self::$statement->fetchAll();
+    }
+
+    public static function find(string $id)
+    {
+        return self::$statement->fetch();
     }
 }

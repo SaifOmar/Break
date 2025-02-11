@@ -1,6 +1,7 @@
 <?php
 
 namespace Break;
+
 class Request
 {
     public function __construct(
@@ -10,20 +11,16 @@ class Request
         public readonly array $files = [],
         public readonly array $server = [],
         public readonly array $headers = [],
-    )
-    {
-    }
+    ) {}
 
     public static function createFromGlobals(): static
     {
         return new static($_GET, $_POST, $_COOKIE, $_FILES, $_SERVER);
     }
-
     public function all()
     {
         return $this->post();
     }
-
     /**
      * @param $param
      * @return mixed
@@ -82,7 +79,6 @@ class Request
     public function status(): int
     {
         return 200;
-
     }
 
     /**
@@ -109,6 +105,4 @@ class Request
     {
         return $this->server['REQUEST_METHOD'];
     }
-
 }
-
